@@ -70,3 +70,9 @@ ls有众多选项，下面列举一些常用的选项
 ![image description](http://i4.piimg.com/4851/b4accc82275a9e08.png)
 
 #### -A----显示隐藏文件除了.和..
+
+
+
+## 使用帮助
+
+linux有很多shell命令，常用的我们可以记住，但是不常用或者我men遗忘的怎么办呢，这就需要我们学会使用shell的帮助
