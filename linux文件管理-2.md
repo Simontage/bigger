@@ -94,9 +94,9 @@ uniq的使用
 
 ## 字符处理
 
-使用tr用于实现转换或删除字符，tr [OPTION]...SET1 [SET2]
+使用tr用于实现转换或删除字符，tr [OPTION]...SET1 [SET2]  tr ‘ab’ ‘AB’ > /etc/passwd
 
-- ​
+- -d 删除字符 tr -d ‘ab’ 把a和b都删除
 
 
 
