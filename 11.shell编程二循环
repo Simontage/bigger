@@ -1,0 +1,38 @@
+# shell编程二循环控制结构
+
+循环要有进入条件和退出条件，在bash中常用的循环有三种分别for循环，while循环，until循环
+
+## for循环结构
+
+```shell
+for 变量 in 列表;do
+    循环体
+done
+```
+
+### 列表的生成
+
+生成整数列表
+
+{1..100}
+
+seq [起始数 [步幅] 结束数 起始数和步幅都可以省略，在for结构中，要使用命令替换\`seq 起始数 步幅 结束数\`
+
+```shell
+#!bin/bash
+#
+declare -i SUM=0
+for I in {0,100};do
+    let SUM=$[$SUM+$I]
+done
+echo "The sum is $SUM"
+```
+
+```shell
+#!bin\bash
+#
+LINES=`wc -l /etc/passwd | cut -d'' -f1`
+for I in `seq 1 $LINES`;do
+    echo "hello,`head -n $I /etc/passwd | tail -1 | cut -d'' -f1`"
+done
+```
