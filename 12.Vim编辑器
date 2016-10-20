@@ -1,7 +1,0 @@
-# Vim编辑器
-
-Vim是一个全屏，模式化的编辑器
-
-打开文件使用vim path/to/FILENAME
-
-vim +n  path/to/FILENAME打开文件光标支持处在第n行
