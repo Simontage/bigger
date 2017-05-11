@@ -150,5 +150,48 @@ SELinux为每个文件提供了安全标签，也为进程提供了安全标签�
 
 任何一个进程能访问哪些文件并不是严格按照进程自己的域和被访问者自己的额类型是否匹配，而是根据系统的SELinux规则。在规则库中定义了哪种域能访问哪种或哪些种类型内文件；对于selinux，遵循了“法无授权不可为”的法则。（对于民众法无禁止即可为），因为需要对规则进行对比，会造成系统运行缓慢，所以将规则库进行二进制编码后使用。
 
+**配置SELinux**
+
+1. SELinux是否启用
+  SELinux的状态
+  - enforcing: 强制，每个受限的进程都必然受限；
+
+
+  - permissive: 启用，每个受限的进程违规操作不会被禁止，但会被记录于审计日志；
+
+
+  - disabled: 关闭；
+
+  相关命令
+
+  - getenforce: 获取selinux当前状态；
+
+
+  - setenforce 0|1  
+
+    0设置为permissive  
+
+    1设置为enforcing
+
+    此设定重启系统后无效；
+
+    配置文件/etc/sysconfig/selinux, /etc/selinux/config SELINUX={disabled|enforcing|permissive}
+
+2. 给文件重新打标签chcon
+
+   chcon [OPTION]... CONTEXT FILE...
+
+   chcon\ [OPTION]...\ [-u USER]\ [-r ROLE] \[-t TYPE] FILE...
+
+   chcon [OPTION]... --reference=RFILE FILE...
+
+   -R递归打标
+
+   还原文件的默认标签：restorecon [-R] /path/to/somewhere
+
+3. 设定某些布尔型特性getsebool/setsebool
+   getsebool命令：getsebool \[-a] [boolean]
+   setsebool命令：etsebool [ -P] boolean value | bool1=val1 bool2=val2 ...
+
 
 
