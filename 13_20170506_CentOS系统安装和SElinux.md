@@ -190,6 +190,7 @@ SELinux为每个文件提供了安全标签，也为进程提供了安全标签�
    还原文件的默认标签：restorecon [-R] /path/to/somewhere
 
 3. 设定某些布尔型特性getsebool/setsebool
+
    getsebool命令：getsebool \[-a] [boolean]
    setsebool命令：etsebool [ -P] boolean value | bool1=val1 bool2=val2 ...
 
