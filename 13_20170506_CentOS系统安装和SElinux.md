@@ -195,4 +195,169 @@ SELinux为每个文件提供了安全标签，也为进程提供了安全标签�
    setsebool命令：etsebool [ -P] boolean value | bool1=val1 bool2=val2 ...
 
 
+## bash编程
+
+### for循环
+
+**for循环语法**
+
+```
+for NAME in LIST; do
+	循环体
+done
+```
+
+**列表生成方式**
+
+(1) 整数列表{start..end}      $(seq start [[step]end])
+
+(2) glob        /etc/rc.d/rc3.d/K*
+
+(3)命令
+
+通过ping命令探测172.16.250.1-254范围内的所有主机的在线状态；
+
+```shell
+#!/bin/bash
+
+net='172.16.250'
+uphosts=0
+downhosts=0
+
+for i in {1..254};do
+	ping -c 1 -w 1 ${net}.{i} &> /dev/null
+	if [ $? -wq 0 ];then
+		echo "${net}.${i} is up."
+		let uphosts++
+	else
+		echo "${net}.${i} is down."
+		let downhosts++
+	fi
+done
+
+echo "Up hosts: $uphosts."
+echo "Down hosts: $downhosts."
+```
+
+
+### while循环
+
+**while循环语法**
+
+```
+while CONDITION; do
+	循环体
+done
+
+CONDITION：循环控制条件
+进入循环之前，先做一次判断；每一次循环之后会再次做判断；条件为“true”，则执行一次循环；直到条件测试状态为“false”终止循环；
+因此：CONDTION一般应该有循环控制变量；而此变量的值会在循环体不断地被修正；
+```
+
+求100以内所有正整数之和；
+
+```shell
+#!/bin/bash
+declare -i sum=0
+declare -i i=i
+
+while [ $i -le 100 ];do
+	let sum+=$i
+	let i++
+done
+
+echo "$i"
+echo "Summary:$sum."
+```
+
+添加10个用户
+
+```shell
+#!/bin/bash
+declare -i i=1
+declare -i users=0
+
+while [ $i -le 10 ];do
+	if ! id user$i &> /dev/null;then
+		useradd user$i
+		echo "add user:$user$i"
+		let users++
+	fi
+	let i++
+done
+
+echo "Add $users users."
+```
+
+通过ping命令探测172.16.250.1-254范围内的所有主机的在线状态；(用while循环)
+
+```shell
+#!/bin/bash
+declare -i i=1
+declare -i uphosts=0
+declare -i downhosts=0
+net='172.16.250'
+while [ &i -le 254 ];do
+	if ping -c1 -w 1 $net.$i &> /dev/null;then
+		echo "$net.$i is up."
+		let uphosts++
+	else
+		echo "$net.$i is down."
+		let downhosts++
+	fi
+	let i++
+echo "uphosts:$uphosts"
+echo "downhosts:$downhosts"
+```
+
+打印九九乘法表
+
+```shell
+#!/bin/bash
+for j in {1..9}; do
+	for i in $(seq 1 $j); do
+		echo -e -n "${i}X${j}=$[$i*$j]\t"
+	done
+	echo
+done
+-----------------------------------------------------------
+#!/bin/bash
+declare -i i=1
+declare -i j=1
+while [ $j -le 9 ]; do
+	while [ $i -le $j ]; do
+		echo -e -n "${i}X${j}=$[$i*$j]\t"
+		let i++
+	done
+	echo
+	let i=1
+	let j++
+done
+```
+
+利用RANDOM生成10个随机数字，输出这个10数字，并显示其中的最大者和最小者；
+
+```shell
+#!/bin/bash
+declare -i max=0
+declare -i min=0
+declare -i i=1
+while [ $i -le 9 ]; do
+	rand=$RANDOM
+	echo $rand
+	if [ $i -eq 1 ]; then
+		max=$rand
+		min=$rand
+	fi
+	if [ $rand -gt $max ]; then
+		max=$rand
+	fi
+	if [ $rand -lt $min ]; then
+		min=$rand
+	fi
+	let i++
+done
+echo "MAX: $max."
+echo "MIN: $min."
+```
 
